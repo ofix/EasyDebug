@@ -1,0 +1,27 @@
+{
+  "name": "easydebug",
+  "version": "1.0.0",
+  "description": "Javascript debug tool for daily development",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ofix/EasyDebug.git"
+  },
+  "keywords": [
+    "debug",
+    "tool"
+  ],
+  "author": "ofix",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ofix/EasyDebug/issues"
+  },
+  "homepage": "https://github.com/ofix/EasyDebug#readme",
+  "devDependencies": {
+    "electron": "^39.2.1"
+  }
+}
