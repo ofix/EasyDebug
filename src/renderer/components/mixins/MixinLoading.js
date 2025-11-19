@@ -4,16 +4,16 @@ import { ElLoading } from 'element-plus'
 let loadingInstance = null;
 const MixinLoading = {
   methods: {
-    showLoadingBar() {
+    showLoadingBar () {
       loadingInstance = ElLoading.service({
         lock: true,
-        text: this.$t("global.loading"),
+        text: "加载中...",
         spinner: "el-icon-loading",
         background: "rgba(0, 0, 0, 0.7)",
         fullscreen: true,
       });
     },
-    hideLoadingBar() {
+    hideLoadingBar () {
       if (loadingInstance) {
         loadingInstance.close();
       }

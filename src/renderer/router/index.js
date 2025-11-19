@@ -1,8 +1,8 @@
 
 import { createRouter, createWebHashHistory } from 'vue-router'
-import Home from '../views/Home/Home'
-import Settings from '../views/Settings/Settings'
-import CodeGenerator from '../views/CodeGenerator/CodeGenerator'
+import Home from '../views/home/Home'
+import Settings from '../views/settings/Settings'
+import CodeGenerator from '../views/generator/CodeGenerator'
 
 const routes = [
     {

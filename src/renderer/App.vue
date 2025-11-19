@@ -5,14 +5,14 @@
 </template>
 
 <script>
-import DefaultLayout from '@/layout/DefaultLayout.vue'
+import DefaultLayout from "@/layout/DefaultLayout.vue";
 
 export default {
-  name: 'EasyDebug',
+  name: "EasyDebug",
   components: {
-    DefaultLayout
-  }
-}
+    DefaultLayout,
+  },
+};
 </script>
 
 <style lang="scss">
@@ -24,7 +24,7 @@ export default {
 
 #app {
   height: 100vh;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 // 覆盖 Element Plus 默认样式

@@ -17,8 +17,7 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.json', '.node'],
     alias: {
-      '@': path.resolve(__dirname, '../src'),
-      '@main': path.resolve(__dirname, '../src/main'),
+      '@': path.resolve(__dirname, '../src/main'),
     }
   },
   module: {

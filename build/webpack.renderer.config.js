@@ -8,10 +8,10 @@ const isProduction = process.env.NODE_ENV === 'production'
 
 module.exports = {
   mode: process.env.NODE_ENV || 'development',
-  entry: './src/renderer/renderer.js',
+  entry: path.resolve(__dirname, '../src/renderer/renderer.js'),
   target: 'electron-renderer',
   output: {
-    path: path.resolve(__dirname, '../../dist'),
+    path: path.resolve(__dirname, '../dist'),
     filename: isProduction ? 'js/[name].[contenthash:8].js' : 'js/[name].js',
     publicPath: isProduction ? './' : 'http://localhost:8080/',
     clean: true
@@ -19,9 +19,7 @@ module.exports = {
   resolve: {
     extensions: ['.js', '.vue', '.json', '.css'],
     alias: {
-      '@': path.resolve(__dirname, '../src'),
-      '@renderer': path.resolve(__dirname, '../src/renderer'),
-      'vue$': 'vue/dist/vue.esm.js'
+      '@': path.resolve(__dirname, '../src/renderer'),
     }
   },
   module: {

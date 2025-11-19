@@ -4,14 +4,18 @@
 <head>
   <meta charset="UTF-8" />
   <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'" />
-  <meta http-equiv="X-Content-Security-Policy" content="default-src 'self'; script-src 'self'" />
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    script-src 'self' 'unsafe-inline' http://localhost:8080;
+    style-src 'self' 'unsafe-inline';
+    img-src 'self' data:;
+    connect-src 'self' http://localhost:8080;" />
+
   <title>EasyDebug</title>
 </head>
 
 <body>
   <div id="app"></div>
 </body>
-<script src="./renderer.js"></script>
 
 </html>
