@@ -4,6 +4,12 @@
   "description": "Javascript debug tool for daily development",
   "main": "main.js",
   "scripts": {
+    "dev": "concurrently \"npm run dev:main\" \"npm run dev:renderer\"",
+    "dev:main": "webpack --config build/webpack.main.config.js --watch",
+    "dev:renderer": "webpack serve --config build/webpack.renderer.config.js",
+    "build": "npm run build:main && npm run build:renderer",
+    "build:main": "webpack --config build/webpack.main.config.js",
+    "build:renderer": "webpack --config build/webpack.renderer.config.js",
     "start": "electron .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -22,6 +28,14 @@
   },
   "homepage": "https://github.com/ofix/EasyDebug#readme",
   "devDependencies": {
-    "electron": "^39.2.1"
+    "electron": "^39.2.1",
+    "sass": "^1.94.1",
+    "sass-loader": "^16.0.6"
+  },
+  "dependencies": {
+    "@element-plus/icons-vue": "^2.3.2",
+    "element-plus": "^2.11.8",
+    "pinia": "^3.0.4",
+    "vue": "^3.5.24"
   }
 }
