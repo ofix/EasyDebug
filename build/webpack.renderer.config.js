@@ -98,12 +98,32 @@ module.exports = {
         filename: 'css/[name].[contenthash:8].css',
         chunkFilename: 'css/[name].[contenthash:8].css'
       })
-    ] : [])
+    ] : []),
+    // 新增：覆盖 Webpack 热更新的全局对象
+    new (require('webpack')).HotModuleReplacementPlugin({
+      // 强制热更新方法挂载到 window 上
+      multiStep: true,
+      fullBuildTimeout: 200,
+      // 关键：指定热更新的全局变量名，且挂载到 window
+      hotUpdateGlobal: 'window["webpackHotUpdateeasydebug"]',
+    }),
   ],
+  // 新增：优化热更新模块查找路径
+  optimization: {
+    runtimeChunk: 'single',
+    splitChunks: {
+      chunks: 'all',
+    },
+  },
   devServer: {
     port: 8080,
     hot: true,
     compress: true,
+    client: {
+      // 告诉 Webpack HMR 客户端，将热更新方法挂载到 window 上
+      overlay: true,
+      webSocketURL: 'ws://localhost:8080/ws', // 与 Vue CLI 端口一致
+    },
     historyApiFallback: true,
     headers: {
       'Access-Control-Allow-Origin': '*'

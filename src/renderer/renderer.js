@@ -1,3 +1,25 @@
+(function () {
+  // 1. 优先检测是否有预加载注入的 global
+  if (typeof window !== 'undefined') {
+    // 若没有 global，直接赋值为 window
+    if (!window.global) {
+      window.global = window;
+    }
+    // 2. 确保 Webpack 热更新的全局变量存在
+    if (!window.webpackHotUpdateeasydebug) {
+      window.webpackHotUpdateeasydebug = function (chunkId, moreModules, runtime) {
+        for (const moduleId in moreModules) {
+          if (Object.prototype.hasOwnProperty.call(moreModules, moduleId)) {
+            window.global[moduleId] = moreModules[moduleId];
+          }
+        }
+        if (runtime) {
+          runtime();
+        }
+      };
+    }
+  }
+})();
 import { createApp } from 'vue' // Vue 3
 import ElementPlus from 'element-plus' // Element-Plus
 import App from './App.vue' // 单页应用主入口
