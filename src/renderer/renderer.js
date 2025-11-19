@@ -20,6 +20,7 @@
     }
   }
 })();
+console.log("xxxxxsadfdasf");
 import { createApp } from 'vue' // Vue 3
 import ElementPlus from 'element-plus' // Element-Plus
 import App from './App.vue' // 单页应用主入口

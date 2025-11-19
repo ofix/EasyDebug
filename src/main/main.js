@@ -35,7 +35,7 @@ const createWindow = () => {
   } else {
     win.loadFile(path.join(__dirname, '../../dist/index.html')); // 生产环境路径
   }
-  win.webContents.openDevTools({ mode: 'detach' });
+  win.webContents.openDevTools();
   // 新增：监听 WebSocket 连接（解决 HMR 连接失败）
   win.webContents.on('did-finish-load', () => {
     console.log('页面加载完成，HMR 准备就绪');

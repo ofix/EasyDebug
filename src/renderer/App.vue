@@ -1,16 +1,17 @@
 <template>
-  <div id="app">
-    <DefaultLayout />
+  <div>
+    <!-- <DefaultLayout /> -->
+    小傻瓜
   </div>
 </template>
 
 <script>
-import DefaultLayout from "@/layout/DefaultLayout.vue";
+// import DefaultLayout from "@/layout/DefaultLayout.vue";
 
 export default {
-  name: "EasyDebug",
+  name: "App",
   components: {
-    DefaultLayout,
+    // DefaultLayout,
   },
 };
 </script>

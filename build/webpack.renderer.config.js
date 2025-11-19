@@ -86,12 +86,14 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, '../src/renderer/index.html'),
       filename: 'index.html',
-      minify: isProduction
+      minify: isProduction,
+      inject: 'body', // 脚本注入到 body 末尾（确保 #app 已存在）
+      scriptLoading: 'blocking', // 同步执行脚本（关键！避免加载顺序问题）
     }),
     new DefinePlugin({
       '__VUE_OPTIONS_API__': 'true',
       '__VUE_PROD_DEVTOOLS__': 'false',
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
     }),
     ...(isProduction ? [
       new MiniCssExtractPlugin({
