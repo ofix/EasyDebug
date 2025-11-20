@@ -4,6 +4,7 @@
 
 <script>
 import MixinLoading from "@/components/mixins/MixinLoading";
+import IPCRenderer from "../../service/ipc";
 export default {
   name: "Home",
   data() {
@@ -19,6 +20,8 @@ export default {
     console.log("Node.js 版本:", window.versions.node());
     console.log("Chromium 版本:", window.versions.chrome());
     console.log("Electron 版本:", window.versions.electron());
+    ipcRenderer = new IPCRenderer();
+    ipcRenderer.sendMessage("我是测试哥....");
   },
   methods: {},
 };

@@ -1,5 +1,6 @@
 const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('node:path')
+const ipcManager = require('./ipc/IPCManager') // 导入 IPC 管理模块
 
 process.env.NODE_ENV = 'development';
 
@@ -15,6 +16,10 @@ const createWindow = () => {
       nodeIntegration: false,           // 建议关闭
       enableRemoteModule: false,        // 已废弃，关闭
       sandbox: false,                   // 可按需开启
+      // 禁用自动填充相关功能
+      autoplayPolicy: 'document-user-activation-required',
+      // 其他可能有助于减少警告的设置
+      enablePreferredSizeMode: false
       // devTools: process.env.NODE_ENV === 'development'
     },
     autoHideMenuBar: true,              // 可选：隐藏菜单栏（保留快捷键）
@@ -23,11 +28,8 @@ const createWindow = () => {
     // 可选：自定义窗口图标
     // icon: path.join(__dirname, '../renderer/asssets/icon.png'),
   })
-  // 注意：renderer 目录相对于 main 目录的相对路径
-  const indexFile = path.join(__dirname, '../renderer/index.html');
-  win.loadFile(indexFile)
-
-
+  // 设置主窗口引用到 IPC 管理器
+  ipcManager.setMainWindow(win);
 
   // ✅ 开发环境：加载 webpack-dev-server 提供的页面（已注入 Vue 打包代码）
   if (process.env.NODE_ENV === 'development') {
@@ -38,6 +40,7 @@ const createWindow = () => {
   win.webContents.openDevTools();
   // 新增：监听 WebSocket 连接（解决 HMR 连接失败）
   win.webContents.on('did-finish-load', () => {
+    ipcManager.sendMessageToRenderer('应用程序启动成功！');
     console.log('页面加载完成，HMR 准备就绪');
   });
 

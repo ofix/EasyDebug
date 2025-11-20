@@ -89,6 +89,11 @@ module.exports = {
       minify: isProduction,
       inject: 'body', // 脚本注入到 body 末尾（确保 #app 已存在）
       scriptLoading: 'blocking', // 同步执行脚本（关键！避免加载顺序问题）
+      templateParameters: {
+        csp: isProduction ? 
+          "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline';" :
+          "default-src * 'unsafe-inline'; script-src * 'unsafe-inline';"
+      }
     }),
     new DefinePlugin({
       '__VUE_OPTIONS_API__': 'true',
@@ -117,20 +122,6 @@ module.exports = {
       chunks: 'all',
     },
   },
-  devServer: {
-    port: 8080,
-    hot: true,
-    compress: true,
-    client: {
-      // 告诉 Webpack HMR 客户端，将热更新方法挂载到 window 上
-      overlay: true,
-      webSocketURL: 'ws://localhost:8080/ws', // 与 Vue CLI 端口一致
-    },
-    historyApiFallback: true,
-    headers: {
-      'Access-Control-Allow-Origin': '*'
-    }
-  },
   externals: {
     electron: 'commonjs electron'
   },
@@ -152,5 +143,20 @@ module.exports = {
         }
       }
     }
-  }
+  },
+  devServer: {
+    port: 8080,
+    hot: true,
+    compress: false,
+    // client: {
+    //   // 告诉 Webpack HMR 客户端，将热更新方法挂载到 window 上
+    //   overlay: true,
+    //   webSocketURL: 'ws://localhost:8080/ws', // 与 Vue CLI 端口一致
+    // },
+    historyApiFallback: true,
+    allowedHosts: 'all',
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+    }
+  },
 }
