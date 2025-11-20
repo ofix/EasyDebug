@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 
-export const useEditorStore = defineStore('editor', () => {
+export default useEditorStore = defineStore('editor', () => {
   // State
   const currentFile = ref(null)
   const content = ref('')
@@ -12,19 +12,19 @@ export const useEditorStore = defineStore('editor', () => {
   const replaceText = ref('')
 
   // Getters
-  const fileName = computed(() => 
+  const fileName = computed(() =>
     currentFile.value?.name || '未命名文件'
   )
-  
-  const fileExtension = computed(() => 
+
+  const fileExtension = computed(() =>
     fileName.value.split('.').pop() || ''
   )
-  
-  const wordCount = computed(() => 
+
+  const wordCount = computed(() =>
     content.value.trim() ? content.value.split(/\s+/).length : 0
   )
-  
-  const lineCount = computed(() => 
+
+  const lineCount = computed(() =>
     content.value ? content.value.split('\n').length : 1
   )
 
@@ -35,42 +35,42 @@ export const useEditorStore = defineStore('editor', () => {
     isDirty.value = false
     language.value = 'plaintext'
   }
-  
+
   const openFile = async (file) => {
     // 模拟文件读取
     const fileContent = await new Promise(resolve =>
       setTimeout(() => resolve(`// ${file.name}\n// 文件内容...`), 500)
     )
-    
+
     currentFile.value = file
     content.value = fileContent
     isDirty.value = false
-    
+
     // 根据文件扩展名设置语言
     setLanguageByExtension(file.name.split('.').pop())
   }
-  
+
   const saveFile = async () => {
     if (!currentFile.value) {
       // 弹出保存对话框
       return false
     }
-    
+
     // 模拟保存
     await new Promise(resolve => setTimeout(resolve, 500))
     isDirty.value = false
     return true
   }
-  
+
   const updateContent = (newContent) => {
     content.value = newContent
     isDirty.value = true
   }
-  
+
   const setCursorPosition = (position) => {
     cursorPosition.value = position
   }
-  
+
   const setLanguageByExtension = (ext) => {
     const languageMap = {
       'js': 'javascript',
@@ -84,28 +84,28 @@ export const useEditorStore = defineStore('editor', () => {
     }
     language.value = languageMap[ext] || 'plaintext'
   }
-  
+
   const findInContent = (text) => {
     findText.value = text
     if (!text) return []
-    
+
     const lines = content.value.split('\n')
     const results = []
-    
+
     lines.forEach((line, index) => {
       if (line.includes(text)) {
         results.push({ line: index + 1, content: line })
       }
     })
-    
+
     return results
   }
-  
+
   const replaceInContent = (find, replace) => {
     if (!find) return
-    
+
     const newContent = content.value.replace(
-      new RegExp(find, 'g'), 
+      new RegExp(find, 'g'),
       replace
     )
     updateContent(newContent)
@@ -120,13 +120,13 @@ export const useEditorStore = defineStore('editor', () => {
     language,
     findText,
     replaceText,
-    
+
     // Getters
     fileName,
     fileExtension,
     wordCount,
     lineCount,
-    
+
     // Actions
     newFile,
     openFile,

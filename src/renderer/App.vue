@@ -24,6 +24,8 @@ export default {
 }
 
 #app {
+  width: 100vw;
+  background-color: #f5f5f5;
   height: 100vh;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }

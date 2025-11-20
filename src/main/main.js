@@ -2,7 +2,8 @@ const { app, BrowserWindow, ipcMain } = require('electron')
 const path = require('node:path')
 const ipcManager = require('./ipc/IPCManager') // 导入 IPC 管理模块
 
-process.env.NODE_ENV = 'development';
+// 忽略安全警告提示 Electron Security Warning (Insecure Content-Security-Policy)
+// process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = true
 
 const createWindow = () => {
   const win = new BrowserWindow({
@@ -33,7 +34,8 @@ const createWindow = () => {
 
   // ✅ 开发环境：加载 webpack-dev-server 提供的页面（已注入 Vue 打包代码）
   if (process.env.NODE_ENV === 'development') {
-    win.loadURL('http://localhost:8080');
+    console.log("加载开发环境的文件");
+    win.loadURL('http://localhost:8080/');
   } else {
     win.loadFile(path.join(__dirname, '../../dist/index.html')); // 生产环境路径
   }

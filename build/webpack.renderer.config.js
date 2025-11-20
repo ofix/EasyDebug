@@ -3,6 +3,7 @@ const { VueLoaderPlugin } = require('vue-loader')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const { DefinePlugin } = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const webpack = require('webpack')
 
 const isProduction = process.env.NODE_ENV === 'production'
 
@@ -13,6 +14,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, '../dist'),
     filename: isProduction ? 'js/[name].[contenthash:8].js' : 'js/[name].js',
+    chunkFilename: isProduction ? 'js/[name].[contenthash:8].js' : 'js/[name].js',
     publicPath: isProduction ? './' : 'http://localhost:8080/',
     clean: true
   },
@@ -89,16 +91,14 @@ module.exports = {
       minify: isProduction,
       inject: 'body', // 脚本注入到 body 末尾（确保 #app 已存在）
       scriptLoading: 'blocking', // 同步执行脚本（关键！避免加载顺序问题）
-      templateParameters: {
-        csp: isProduction ? 
-          "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline';" :
-          "default-src * 'unsafe-inline'; script-src * 'unsafe-inline';"
-      }
     }),
     new DefinePlugin({
       '__VUE_OPTIONS_API__': 'true',
       '__VUE_PROD_DEVTOOLS__': 'false',
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
+    }),
+    new webpack.ProvidePlugin({
+      global: 'globalThis'
     }),
     ...(isProduction ? [
       new MiniCssExtractPlugin({
@@ -106,26 +106,10 @@ module.exports = {
         chunkFilename: 'css/[name].[contenthash:8].css'
       })
     ] : []),
-    // 新增：覆盖 Webpack 热更新的全局对象
-    new (require('webpack')).HotModuleReplacementPlugin({
-      // 强制热更新方法挂载到 window 上
-      multiStep: true,
-      fullBuildTimeout: 200,
-      // 关键：指定热更新的全局变量名，且挂载到 window
-      hotUpdateGlobal: 'window["webpackHotUpdateeasydebug"]',
-    }),
   ],
-  // 新增：优化热更新模块查找路径
-  optimization: {
-    runtimeChunk: 'single',
-    splitChunks: {
-      chunks: 'all',
-    },
-  },
   externals: {
     electron: 'commonjs electron'
   },
-  devtool: isProduction ? false : 'eval-source-map',
   optimization: {
     splitChunks: {
       chunks: 'all',
@@ -135,24 +119,20 @@ module.exports = {
           name: 'vendors',
           chunks: 'all'
         },
-        elementUI: {
-          test: /[\\/]node_modules[\\/]element-ui[\\/]/,
-          name: 'element-ui',
-          chunks: 'all',
-          priority: 20
-        }
+        // elementUI: {
+        //   test: /[\\/]node_modules[\\/]element-ui[\\/]/,
+        //   name: 'element-ui',
+        //   chunks: 'all',
+        //   priority: 20
+        // }
       }
     }
   },
+  devtool: isProduction ? false : 'eval-source-map',
   devServer: {
     port: 8080,
     hot: true,
     compress: false,
-    // client: {
-    //   // 告诉 Webpack HMR 客户端，将热更新方法挂载到 window 上
-    //   overlay: true,
-    //   webSocketURL: 'ws://localhost:8080/ws', // 与 Vue CLI 端口一致
-    // },
     historyApiFallback: true,
     allowedHosts: 'all',
     headers: {

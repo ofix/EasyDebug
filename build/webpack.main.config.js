@@ -1,5 +1,4 @@
 const path = require('path')
-const { DefinePlugin } = require('webpack')
 
 module.exports = {
   mode: process.env.NODE_ENV || 'development',
@@ -10,41 +9,4 @@ module.exports = {
     filename: 'main.js',
     clean: true
   },
-  node: {
-    __dirname: false,
-    __filename: false
-  },
-  resolve: {
-    extensions: ['.js', '.json', '.node'],
-    alias: {
-      '@': path.resolve(__dirname, '../src/main'),
-    }
-  },
-  module: {
-    rules: [
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env']
-          }
-        }
-      },
-      {
-        test: /\.node$/,
-        use: 'node-loader'
-      }
-    ]
-  },
-  plugins: [
-    new DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
-    })
-  ],
-  externals: {
-    electron: 'commonjs electron'
-  },
-  devtool: process.env.NODE_ENV === 'production' ? false : 'source-map'
 }
